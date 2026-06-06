@@ -1,0 +1,69 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+
+/* Enterprise Header */
+.enterprise-header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+.logo-section { display: flex; align-items: center; gap: 12px; }
+.logo-icon { font-size: 28px; color: #3b82f6; }
+.logo-text { font-size: 22px; font-weight: 700; }
+.enterprise-badge { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+.main-nav { display: flex; gap: 32px; }
+.main-nav a { text-decoration: none; color: #475569; font-weight: 500; transition: 0.3s; }
+.main-nav a:hover { color: #3b82f6; }
+
+/* Hero */
+.hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 0; text-align: center; color: white; }
+.hero h1 { font-size: 56px; margin-bottom: 20px; }
+.btn-hero { background: white; color: #667eea; padding: 14px 32px; border-radius: 40px; font-weight: 600; border: none; cursor: pointer; }
+
+/* Filter Bar */
+.filter-bar { background: white; padding: 16px 0; border-bottom: 1px solid #e2e8f0; margin-bottom: 40px; }
+.filter-bar select { padding: 10px 20px; border-radius: 8px; border: 1px solid #cbd5e1; margin: 0 10px; }
+
+/* Products Grid */
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; margin: 40px 0; }
+.product-card { background: white; border-radius: 16px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1); }
+.product-image { width: 100%; height: 400px; object-fit: cover; }
+.product-info { padding: 20px; }
+.brand-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.brand-logo { width: 30px; height: 30px; border-radius: 50%; object-fit: contain; }
+.product-title { font-size: 18px; font-weight: 600; margin: 8px 0; }
+.price-row { display: flex; gap: 12px; align-items: center; margin: 12px 0; }
+.current-price { font-size: 24px; font-weight: 700; color: #3b82f6; }
+.original-price { text-decoration: line-through; color: #94a3b8; }
+.discount { background: #ef4444; color: white; padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+.btn-book { background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; }
+.btn-book:hover { background: #2563eb; }
+
+/* Brands Showcase */
+.brands-showcase { background: white; padding: 60px 0; margin: 40px 0; }
+.brands-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px; margin-top: 40px; }
+.brand-item { font-size: 20px; font-weight: 600; color: #475569; }
+
+/* Stats Section */
+.stats-section { background: linear-gradient(135deg, #1e293b, #0f172a); color: white; padding: 60px 0; }
+.stats-section .container { display: flex; justify-content: space-around; text-align: center; }
+.stat h3 { font-size: 48px; margin-bottom: 8px; }
+
+/* Modal */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+.modal-content { background: white; margin: 10% auto; padding: 30px; width: 450px; border-radius: 20px; }
+.close { float: right; font-size: 28px; cursor: pointer; }
+.modal-content input, .modal-content select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #cbd5e1; border-radius: 8px; }
+
+/* Success Page */
+.success-page { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100vh; display: flex; align-items: center; justify-content: center; }
+.success-card { background: white; padding: 60px; border-radius: 30px; text-align: center; max-width: 500px; }
+.success-icon { font-size: 80px; color: #10b981; margin-bottom: 20px; }
+.btn-return { display: inline-block; margin-top: 30px; background: #3b82f6; color: white; padding: 12px 24px; border-radius: 40px; text-decoration: none; }
+
+/* Footer */
+.enterprise-footer { background: #0f172a; color: #94a3b8; padding: 40px 0; text-align: center; margin-top: 60px; }
+
+@media (max-width: 768px) {
+    .main-nav { display: none; }
+    .products-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 32px; }
+}

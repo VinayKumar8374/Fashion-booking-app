@@ -39,3 +39,28 @@
         <% } %>
     </div>
 </div>
+
+<!-- Fashion Gallery Section -->
+<section class="fashion-gallery">
+    <div class="container">
+        <h2 class="section-title"><i class="fas fa-images"></i> Trend Inspiration</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&h=300&fit=crop" alt="Fashion 1">
+                <div class="gallery-overlay">Summer Collection</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=300&h=300&fit=crop" alt="Fashion 2">
+                <div class="gallery-overlay">Winter Essentials</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&h=300&fit=crop" alt="Fashion 3">
+                <div class="gallery-overlay">Street Style</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=300&h=300&fit=crop" alt="Fashion 4">
+                <div class="gallery-overlay">Formal Wear</div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fashion Hub</title>
+    <title>Elite Fashion Hub | Premium Clothing Booking</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -25,7 +25,7 @@
         .product-card { background: white; border-radius: 16px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
         
-        .product-image { width: 100%; height: 320px; object-fit: cover; background: #667eea; }
+        .product-image { width: 100%; height: 320px; object-fit: cover; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         
         .product-info { padding: 20px; }
         .brand { color: #667eea; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
@@ -45,7 +45,7 @@
         .close { float: right; font-size: 28px; cursor: pointer; }
         .modal-content input, .modal-content select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; }
         
-        .footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 40px; }
+        .footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 40px; margin-top: 40px; }
         
         @media (max-width: 768px) { .products-grid { grid-template-columns: 1fr; } .header h1 { font-size: 32px; } .container { padding: 20px; } }
     </style>
@@ -60,7 +60,7 @@
 <div class="container">
     <div class="filters">
         <label><i class="fas fa-filter"></i> Filter:</label>
-        <select id="categoryFilter">
+        <select id="categoryFilter" onchange="renderProducts()">
             <option value="all">All Categories</option>
             <option value="Shirts">Shirts</option>
             <option value="Pants">Pants</option>
@@ -68,19 +68,17 @@
             <option value="Casuals">Casuals</option>
             <option value="Formals">Formals</option>
         </select>
-        <select id="brandFilter">
+        <select id="brandFilter" onchange="renderProducts()">
             <option value="all">All Brands</option>
         </select>
-        <select id="sortBy">
+        <select id="sortBy" onchange="renderProducts()">
             <option value="default">Sort by: Featured</option>
             <option value="priceLow">Price: Low to High</option>
             <option value="priceHigh">Price: High to Low</option>
         </select>
     </div>
     
-    <div class="products-grid" id="productsGrid">
-        <div style="text-align:center; padding:50px;">Loading products...</div>
-    </div>
+    <div class="products-grid" id="productsGrid"></div>
 </div>
 
 <div class="stats">
@@ -116,26 +114,45 @@
 </div>
 
 <script>
+// Hardcoded products - guaranteed to work
 const products = [
-    { id: 1, name: "Slim Fit Oxford Shirt", brand: "Ralph Lauren", category: "Shirts", price: 89.99, image: "https://images.unsplash.com/photo-1598032895397-b9472444bf93?w=400", description: "Classic formal shirt, 100% cotton" },
-    { id: 2, name: "Stretch Denim Jeans", brand: "Levi's", category: "Pants", price: 79.99, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400", description: "Comfort stretch jeans" },
-    { id: 3, name: "Graphic Print T-Shirt", brand: "Nike", category: "T-Shirts", price: 39.99, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400", description: "Cotton blend, athletic fit" },
-    { id: 4, name: "Casual Chinos", brand: "Tommy Hilfiger", category: "Casuals", price: 69.99, image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400", description: "Slim fit chinos" },
-    { id: 5, name: "Wool Blazer", brand: "Hugo Boss", category: "Formals", price: 299.99, image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400", description: "Premium wool blend" },
-    { id: 6, name: "Polo T-Shirt", brand: "Lacoste", category: "T-Shirts", price: 59.99, image: "https://images.unsplash.com/photo-1586363104861-3a5e2ab9d6ae?w=400", description: "Classic pique polo" },
-    { id: 7, name: "Cargo Pants", brand: "The North Face", category: "Pants", price: 89.99, image: "https://images.unsplash.com/photo-1517438476313-10d79c077051?w=400", description: "Durable cotton cargo" },
-    { id: 8, name: "Linen Summer Shirt", brand: "Zara", category: "Casuals", price: 49.99, image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400", description: "Breathable linen" },
-    { id: 9, name: "Premium Trousers", brand: "Armani", category: "Formals", price: 159.99, image: "https://images.unsplash.com/photo-1594938374182-f1c9e6b9d7b0?w=400", description: "Tailored fit trousers" },
-    { id: 10, name: "Denim Jacket", brand: "Calvin Klein", category: "Casuals", price: 129.99, image: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=400", description: "Classic denim jacket" },
-    { id: 11, name: "Velvet Blazer", brand: "Gucci", category: "Formals", price: 499.99, image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400", description: "Luxurious velvet" },
-    { id: 12, name: "Hoodie", brand: "Champion", category: "Casuals", price: 54.99, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400", description: "Reverse weave hoodie" },
-    { id: 13, name: "Yoga Leggings", brand: "Lululemon", category: "Pants", price: 98.99, image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400", description: "High-waisted leggings" },
-    { id: 14, name: "Silk Tie", brand: "Hermès", category: "Formals", price: 199.99, image: "https://images.unsplash.com/photo-1589756823695-278bc923f962?w=400", description: "100% silk tie" },
-    { id: 15, name: "Cashmere Sweater", brand: "Brunello", category: "Casuals", price: 895.00, image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400", description: "Ultra-soft cashmere" }
+    { id: 1, name: "Slim Fit Oxford Shirt", brand: "Ralph Lauren", category: "Shirts", price: 89.99, image: "https://images.unsplash.com/photo-1598032895397-b9472444bf93?w=400" },
+    { id: 2, name: "Stretch Denim Jeans", brand: "Levi's", category: "Pants", price: 79.99, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400" },
+    { id: 3, name: "Graphic Print T-Shirt", brand: "Nike", category: "T-Shirts", price: 39.99, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" },
+    { id: 4, name: "Casual Chinos", brand: "Tommy Hilfiger", category: "Casuals", price: 69.99, image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400" },
+    { id: 5, name: "Wool Blazer", brand: "Hugo Boss", category: "Formals", price: 299.99, image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400" },
+    { id: 6, name: "Polo T-Shirt", brand: "Lacoste", category: "T-Shirts", price: 59.99, image: "https://images.unsplash.com/photo-1586363104861-3a5e2ab9d6ae?w=400" },
+    { id: 7, name: "Cargo Pants", brand: "The North Face", category: "Pants", price: 89.99, image: "https://images.unsplash.com/photo-1517438476313-10d79c077051?w=400" },
+    { id: 8, name: "Linen Summer Shirt", brand: "Zara", category: "Casuals", price: 49.99, image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400" },
+    { id: 9, name: "Premium Trousers", brand: "Armani", category: "Formals", price: 159.99, image: "https://images.unsplash.com/photo-1594938374182-f1c9e6b9d7b0?w=400" },
+    { id: 10, name: "Denim Jacket", brand: "Calvin Klein", category: "Casuals", price: 129.99, image: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=400" },
+    { id: 11, name: "Velvet Dinner Jacket", brand: "Gucci", category: "Formals", price: 499.99, image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400" },
+    { id: 12, name: "Hooded Sweatshirt", brand: "Champion", category: "Casuals", price: 54.99, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400" },
+    { id: 13, name: "Yoga Leggings", brand: "Lululemon", category: "Pants", price: 98.99, image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=400" },
+    { id: 14, name: "Silk Tie", brand: "Hermès", category: "Formals", price: 199.99, image: "https://images.unsplash.com/photo-1589756823695-278bc923f962?w=400" },
+    { id: 15, name: "Cashmere Sweater", brand: "Brunello Cucinelli", category: "Casuals", price: 895.00, image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400" },
+    { id: 16, name: "Crop Top", brand: "Fashion Nova", category: "T-Shirts", price: 24.99, image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400" },
+    { id: 17, name: "Pleated Skirt", brand: "Mango", category: "Casuals", price: 45.99, image: "https://images.unsplash.com/photo-1583496661160-fb5886a0e8be?w=400" },
+    { id: 18, name: "Bomber Jacket", brand: "Alpha Industries", category: "Casuals", price: 159.99, image: "https://images.unsplash.com/photo-1551028719-00167b16eac1?w=400" },
+    { id: 19, name: "Puffer Vest", brand: "The North Face", category: "Casuals", price: 149.99, image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=400" },
+    { id: 20, name: "Wool Coat", brand: "Burberry", category: "Formals", price: 699.99, image: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=400" }
 ];
 
 let currentProduct = null;
 
+// Populate brand filter
+function populateBrands() {
+    const brands = [...new Set(products.map(p => p.brand))];
+    const brandSelect = document.getElementById('brandFilter');
+    brands.forEach(brand => {
+        const option = document.createElement('option');
+        option.value = brand;
+        option.textContent = brand;
+        brandSelect.appendChild(option);
+    });
+}
+
+// Render products
 function renderProducts() {
     const category = document.getElementById('categoryFilter').value;
     const brand = document.getElementById('brandFilter').value;
@@ -146,37 +163,30 @@ function renderProducts() {
                (brand === 'all' || p.brand === brand);
     });
     
-    if (sort === 'priceLow') filtered.sort((a,b) => a.price - b.price);
-    if (sort === 'priceHigh') filtered.sort((a,b) => b.price - a.price);
+    if (sort === 'priceLow') {
+        filtered.sort((a, b) => a.price - b.price);
+    } else if (sort === 'priceHigh') {
+        filtered.sort((a, b) => b.price - a.price);
+    }
     
     const grid = document.getElementById('productsGrid');
+    
     if (filtered.length === 0) {
-        grid.innerHTML = '<div style="text-align:center; padding:50px;">No products found</div>';
+        grid.innerHTML = '<div style="text-align:center; padding:50px; background:white; border-radius:16px;">No products found. Try changing filters.</div>';
         return;
     }
     
     grid.innerHTML = filtered.map(p => `
         <div class="product-card">
-            <img src="${p.image}" class="product-image" onerror="this.src='https://via.placeholder.com/400x320?text=Fashion+Item'" alt="${p.name}">
+            <img src="${p.image}" class="product-image" alt="${p.name}" onerror="this.src='https://placehold.co/400x320/667eea/white?text=${p.name}'">
             <div class="product-info">
                 <div class="brand"><i class="fas fa-tag"></i> ${p.brand} • ${p.category}</div>
                 <div class="product-title">${p.name}</div>
-                <div class="price">$${p.price} <span class="old-price">$${Math.round(p.price * 1.4)}</span></div>
+                <div class="price">$${p.price.toFixed(2)} <span class="old-price">$${(p.price * 1.4).toFixed(2)}</span></div>
                 <button class="btn-book" onclick="openModal(${p.id})"><i class="fas fa-calendar-check"></i> Book Now</button>
             </div>
         </div>
     `).join('');
-}
-
-function populateBrands() {
-    const brands = [...new Set(products.map(p => p.brand))];
-    const brandSelect = document.getElementById('brandFilter');
-    brands.forEach(brand => {
-        const option = document.createElement('option');
-        option.value = brand;
-        option.textContent = brand;
-        brandSelect.appendChild(option);
-    });
 }
 
 function openModal(id) {
@@ -203,15 +213,18 @@ function confirmBooking() {
         return;
     }
     
-    alert(`✅ BOOKING CONFIRMED!\n\nProduct: ${currentProduct.name}\nBrand: ${currentProduct.brand}\nCustomer: ${name}\nEmail: ${email}\nSize: ${size}\nQuantity: ${quantity}\n\nThank you for shopping with Elite Fashion Hub!`);
+    alert(`✅ BOOKING CONFIRMED!\n\n━━━━━━━━━━━━━━━━━━━━━\n👔 Product: ${currentProduct.name}\n🏷️ Brand: ${currentProduct.brand}\n💰 Price: $${currentProduct.price}\n👤 Customer: ${name}\n📧 Email: ${email}\n📏 Size: ${size}\n🔢 Quantity: ${quantity}\n━━━━━━━━━━━━━━━━━━━━━\n✨ Thank you for shopping with Elite Fashion Hub!`);
     closeModal();
 }
 
-document.getElementById('categoryFilter').addEventListener('change', renderProducts);
-document.getElementById('brandFilter').addEventListener('change', renderProducts);
-document.getElementById('sortBy').addEventListener('change', renderProducts);
-window.onclick = function(event) { if (event.target === document.getElementById('bookingModal')) closeModal(); }
+// Close modal when clicking outside
+window.onclick = function(event) {
+    if (event.target === document.getElementById('bookingModal')) {
+        closeModal();
+    }
+}
 
+// Initialize
 populateBrands();
 renderProducts();
 </script>
